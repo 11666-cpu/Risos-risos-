@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nossa História ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: black;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Tela inicial */
+#inicio {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #1a0000, black);
+  text-align: center;
+}
+
+#inicio h1 {
+  font-size: 2.5em;
+}
+
+button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  background: crimson;
+  color: white;
+  cursor: pointer;
+}
+
+/* Texto digitando */
+#digitando {
+  text-align: center;
+  margin-top: 30vh;
+  font-size: 1.5em;
+  padding: 20px;
+  min-height: 80px;
+}
+
+/* Timeline */
+#timeline {
+  display: none;
+  padding: 40px 20px;
+}
+
+.momento {
+  margin: 60px 0;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 1s;
+}
+
+.momento.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.momento img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+/* Carta final */
+#carta {
+  display: none;
+  padding: 50px 20px;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+/* Tela final */
+#final {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+#final h1 {
+  font-size: 2.5em;
+}
+
+/* Corações */
+.heart {
+  position: fixed;
+  bottom: 0;
+  color: red;
+  font-size: 20px;
+  animation: subir 5s linear infinite;
+}
+
+@keyframes subir {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(-100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INÍCIO -->
+<section id="inicio">
+  <h1>Nossa História ❤️</h1>
+  <button onclick="iniciar()">Começar</button>
+</section>
+
+<!-- TEXTO DIGITANDO -->
+<div id="digitando"></div>
+
+<!-- TIMELINE -->
+<section id="timeline">
+
+<div class="momento">
+  <h2>📅 Quando tudo começou</h2>
+  <p>Eu nem imaginava… mas ali minha vida já tava mudando.</p>
+  <img src="foto1.jpg">
+</div>
+
+<div class="momento">
+  <h2>💬 Nossas conversas</h2>
+  <p>Cada mensagem sua fazia meu dia melhor.</p>
+  <img src="foto2.jpg">
+</div>
+
+<div class="momento">
+  <h2>❤️ Quando percebi</h2>
+  <p>Sem perceber, eu já não conseguia mais ficar sem você.</p>
+  <img src="foto3.jpg">
+</div>
+
+<div class="momento">
+  <h2>💍 Nosso namoro</h2>
+  <p>O dia que eu tive certeza que era você.</p>
+  <img src="foto4.jpg">
+</div>
+
+</section>
+
+<!-- CARTA -->
+<section id="carta">
+  <p>
+  Eu não sei explicar exatamente como você entrou na minha vida,<br><br>
+  mas sei que depois disso… tudo ficou melhor.<br><br>
+
+  Você virou meu pensamento favorito,<br>
+  minha saudade diária,<br>
+  e a melhor parte dos meus dias.<br><br>
+
+  E mesmo com distância, medo, ou qualquer dificuldade…<br>
+  eu escolheria você de novo.<br><br>
+
+  E de novo.<br><br>
+
+  E de novo.<br><br>
+
+  Porque é você… sempre foi você.
+  </p>
+</section>
+
+<!-- FINAL -->
+<section id="final">
+  <h1>Eu te amo ❤️</h1>
+  <p>Pra sempre.</p>
+
+  <audio autoplay loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+</section>
+
+<script>
+const texto = [
+"Eu fiz isso pra você...",
+"Porque você merece mais do que palavras...",
+"Você merece sentir..."
+];
+
+let i = 0;
+let j = 0;
+
+function iniciar() {
+  document.getElementById("inicio").style.display = "none";
+  digitar();
+}
+
+function digitar() {
+  if (i < texto.length) {
+    if (j < texto[i].length) {
+      document.getElementById("digitando").innerHTML += texto[i].charAt(j);
+      j++;
+      setTimeout(digitar, 50);
+    } else {
+      document.getElementById("digitando").innerHTML += "<br><br>";
+      i++;
+      j = 0;
+      setTimeout(digitar, 800);
+    }
+  } else {
+    setTimeout(() => {
+      document.getElementById("digitando").style.display = "none";
+      document.getElementById("timeline").style.display = "block";
+    }, 1000);
+  }
+}
+
+window.addEventListener("scroll", () => {
+  const momentos = document.querySelectorAll(".momento");
+
+  momentos.forEach(el => {
+    const pos = el.getBoundingClientRect().top;
+    if (pos < window.innerHeight - 100) {
+      el.classList.add("show");
+    }
+  });
+
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+    document.getElementById("carta").style.display = "block";
+
+    setTimeout(() => {
+      document.getElementById("final").style.display = "flex";
+      criarCorações();
+    }, 4000);
+  }
+});
+
+function criarCorações() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.innerHTML = "❤️";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
